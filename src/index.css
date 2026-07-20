@@ -1,0 +1,89 @@
+:root {
+  --ink: #12110f;
+  --ink-soft: #2a2724;
+  --bone: #f0ede7;
+  --bone-dim: #e4e0d8;
+  --mist: #c9c3b8;
+  --champagne: #b89a6a;
+  --champagne-soft: #d4c0a0;
+  --line: rgba(18, 17, 15, 0.12);
+  --line-light: rgba(240, 237, 231, 0.18);
+
+  --font-display: "Bodoni Moda", "Times New Roman", serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-h: 4.5rem;
+
+  color-scheme: light;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bone);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

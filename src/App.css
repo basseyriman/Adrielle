@@ -568,6 +568,13 @@
   color: var(--ink-soft);
 }
 
+.waitlist__error {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #8b3a3a;
+}
+
 /* ——— Footer ——— */
 .footer {
   padding: clamp(3rem, 8vh, 4.5rem) clamp(1.25rem, 4vw, 3rem) 2rem;

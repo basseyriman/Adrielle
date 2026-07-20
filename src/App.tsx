@@ -5,6 +5,7 @@ import {
   type CSSProperties,
   type FormEvent,
 } from 'react'
+import { joinWaitlist } from './lib/waitlist'
 import './App.css'
 
 const products = [
@@ -66,7 +67,9 @@ function App() {
   const [navSolid, setNavSolid] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [email, setEmail] = useState('')
-  const [waitlistState, setWaitlistState] = useState<'idle' | 'loading' | 'done'>('idle')
+  const [waitlistState, setWaitlistState] = useState<
+    'idle' | 'loading' | 'done' | 'error'
+  >('idle')
 
   const fitRef = useReveal<HTMLElement>()
   const collectionRef = useReveal<HTMLElement>()
@@ -93,33 +96,12 @@ function App() {
 
     setWaitlistState('loading')
 
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
-
     try {
-      if (supabaseUrl && supabaseKey) {
-        await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-            Prefer: 'return=minimal',
-          },
-          body: JSON.stringify({ email: email.trim().toLowerCase() }),
-        })
-      } else {
-        await new Promise((r) => setTimeout(r, 700))
-        const existing = JSON.parse(localStorage.getItem('adrielle-waitlist') || '[]') as string[]
-        if (!existing.includes(email.trim().toLowerCase())) {
-          existing.push(email.trim().toLowerCase())
-          localStorage.setItem('adrielle-waitlist', JSON.stringify(existing))
-        }
-      }
+      await joinWaitlist(email)
       setWaitlistState('done')
       setEmail('')
     } catch {
-      setWaitlistState('idle')
+      setWaitlistState('error')
     }
   }
 
@@ -308,7 +290,10 @@ function App() {
                   autoComplete="email"
                   placeholder="Your email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    if (waitlistState === 'error') setWaitlistState('idle')
+                  }}
                   disabled={waitlistState === 'loading'}
                 />
                 <button
@@ -318,6 +303,11 @@ function App() {
                 >
                   {waitlistState === 'loading' ? 'Joining…' : 'Join Waitlist'}
                 </button>
+                {waitlistState === 'error' ? (
+                  <p className="waitlist__error" role="alert">
+                    Something went wrong. Please try again.
+                  </p>
+                ) : null}
               </form>
             )}
           </div>

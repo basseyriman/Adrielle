@@ -334,7 +334,9 @@ function App() {
         </div>
         <div className="footer__base">
           <p>© {new Date().getFullYear()} Adrielle. All rights reserved.</p>
-          <p>Proportioned for 5&apos;9&quot; and above.</p>
+          <p className="footer__credit">
+            Built by Rimanstech Industries
+          </p>
         </div>
       </footer>
     </div>
